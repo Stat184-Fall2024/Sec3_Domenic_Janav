@@ -4,14 +4,11 @@ format: pdf
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 ```{r}
+####https://www.kaggle.com/datasets/ikynahidwin/depression-student-dataset
+### 502 rows
+### 11 columns
+
 library(tidyverse)
 library(ggplot2)
 ```
@@ -28,262 +25,153 @@ depression_age <- depression %>% group_by(Gender, Age, Depression) %>% summarise
 are_d <- depression_age %>% filter(Depression == "Yes")
 are_nd <- depression_age %>% filter(Depression == "No")
 
-ggplot(are_d, aes(x = Age, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(are_d, aes(x = Age, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
     title = "Age of Depressed Students",
     x = "Age",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Gender)
 
-ggplot(are_nd, aes(x = Age, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(are_nd, aes(x = Age, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
     title = "Age of Not Depressed Students",
     x = "Age",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Gender)
+
 ```
 ```{r}
 depression_press <- depression %>% group_by(Gender, Academic.Pressure, Depression) %>% summarise(count=n())
 
-are_d <- depression_press %>% filter(Depression == "Yes")
-are_nd <- depression_press %>% filter(Depression == "No")
-
-ggplot(are_d, aes(x = Academic.Pressure, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_press, aes(x = Academic.Pressure, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Academic Pressure of Depressed Students",
+    title = "Academic Pressure of Students and Whether or not they are Depressed",
     x = "Academic Pressure",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
-
-ggplot(are_nd, aes(x = Academic.Pressure, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Academic Pressure of Not Depressed Students",
-    x = "Academic Pressure",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 ```
 ```{r}
 depression_study <- depression %>% group_by(Gender, Study.Satisfaction, Depression) %>% summarise(count=n())
 
-are_d <- depression_study %>% filter(Depression == "Yes")
-are_nd <- depression_study %>% filter(Depression == "No")
-
-ggplot(are_d, aes(x = Study.Satisfaction, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_study, aes(x = Study.Satisfaction, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Study Satisfaction of Depressed Students",
-    x = "Study Satisfaction",
+    title = "Study Satisfaction of Students and Whether or not they are Depressed",
+    x = "Academic Pressure (1-5)",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
-
-ggplot(are_nd, aes(x = Study.Satisfaction, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Study Satisfaction of Not Depressed Students",
-    x = "Study Satisfaction",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 ```
 ```{r}
 depression_sleep <- depression %>% group_by(Gender, Sleep.Duration, Depression) %>% summarise(count=n())
 
-are_d <- depression_sleep %>% filter(Depression == "Yes")
-are_nd <- depression_sleep %>% filter(Depression == "No")
+#shortens categorical data so it's better read on the graph
+depression_sleep <- depression_sleep %>%
+  mutate(Sleep.Duration = recode(Sleep.Duration, "5-6 hours" = "5-6", "7-8 hours" = "7-8", "More than 8 hours" = "8<", "Less than 5 hours" = "<5"))
 
-ggplot(are_d, aes(x = Sleep.Duration, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_sleep, aes(x = Sleep.Duration, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Sleep Duration of Depressed Students",
-    x = "Sleep Duration",
+    title = "How Long Students Sleep and Whether or not they are Depressed",
+    x = "Hours Slept",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 
-ggplot(are_nd, aes(x = Sleep.Duration, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Sleep Duration of Not Depressed Students",
-    x = "Sleep.Duration",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+
 ```
 ```{r}
 depression_diet <- depression %>% group_by(Gender, Dietary.Habits, Depression) %>% summarise(count=n())
 
-are_d <- depression_diet %>% filter(Depression == "Yes")
-are_nd <- depression_diet %>% filter(Depression == "No")
-
-ggplot(are_d, aes(x = Dietary.Habits, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_diet, aes(x = Dietary.Habits, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Dietary Habits of Depressed Students",
-    x = "Dietary Habits",
+    title = "Diet of Students and Whether or not they are Depressed",
+    x = "Diet",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
-
-ggplot(are_nd, aes(x = Dietary.Habits, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Dietary Habits of Not Depressed Students",
-    x = "Dietary.Habits",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 ```
 ```{r}
 depression_suicidal <- depression %>% group_by(Gender, Have.you.ever.had.suicidal.thoughts.., Depression) %>% summarise(count=n())
 
-
-are_d <- depression_suicidal %>% filter(Depression == "Yes")
-are_nd <- depression_suicidal %>% filter(Depression == "No")
-
-ggplot(are_d, aes(x = Have.you.ever.had.suicidal.thoughts.., y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_suicidal, aes(x = Have.you.ever.had.suicidal.thoughts.., y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Suicidal Thoughts vs Depression",
-    x = "Suicidal Thoughts",
+    title = "Does the Student have Suicidal Thoughts? and Whether or not they are Depressed.",
+    x = "Suicidal Thoughts?",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
-
-ggplot(are_nd, aes(x = Have.you.ever.had.suicidal.thoughts.., y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Suicidal Thoughts vs No Depression",
-    x = "Suicidal Thoughts",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 ```
 ```{r}
 depression_study_h <- depression %>% group_by(Gender, Study.Hours, Depression) %>% summarise(count=n())
 
-
-are_d <- depression_study_h %>% filter(Depression == "Yes")
-are_nd <- depression_study_h %>% filter(Depression == "No")
-
-ggplot(are_d, aes(x = Study.Hours, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_study_h, aes(x = Study.Hours, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Study Hours of Depressed Students",
+    title = "Study Hours of Students and Whether or not they are Depressed",
     x = "Study Hours",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
-
-ggplot(are_nd, aes(x = Study.Hours, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Study Hours of Not Depressed Students",
-    x = "Study Hours",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 ```
 ```{r}
 depression_finance <- depression %>% group_by(Gender, Financial.Stress, Depression) %>% summarise(count=n())
 
-
-are_d <- depression_finance %>% filter(Depression == "Yes")
-are_nd <- depression_finance %>% filter(Depression == "No")
-
-ggplot(are_d, aes(x = Financial.Stress, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_finance, aes(x = Financial.Stress, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Financial Stress of Depressed Students",
-    x = "Financial Stress",
+    title = "Financial Stress of Students and Whether or not they are Depressed",
+    x = "Finantial Stress (1-5)",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
-
-ggplot(are_nd, aes(x = Financial.Stress, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Financial Stress of Not Depressed Students",
-    x = "Financial Stress",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 ```
 ```{r}
 depression_fam <- depression %>% group_by(Gender, Family.History.of.Mental.Illness, Depression) %>% summarise(count=n())
 
-
-are_d <- depression_fam %>% filter(Depression == "Yes")
-are_nd <- depression_fam %>% filter(Depression == "No")
-
-ggplot(are_d, aes(x = Family.History.of.Mental.Illness, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
+ggplot(depression_fam, aes(x = Family.History.of.Mental.Illness, y = count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   labs(
-    title = "Family History of Mental Illness of Depressed Students",
-    x = "Family History of Mental Illness",
+    title = "Does a Students have a Family History of Mental Illness? and Whether or not they are Depressed",
+    x = "History of Illness",
     y = "Total",
-    color = "Gender"
+    fill = "Gender"
   ) +
-  theme_minimal() 
-
-ggplot(are_nd, aes(x = Family.History.of.Mental.Illness, y = count, color = Gender)) +
-  geom_point(size = 3) +    
-  geom_line() +       
-  labs(
-    title = "Family History of Mental Illness of Not Depressed Students",
-    x = "Family History of Mental Illness",
-    y = "Total",
-    color = "Gender"
-  ) +
-  theme_minimal() 
+  theme_minimal()+
+  facet_wrap(~ Depression)
 ```
 ```{r}
 depression_is_depressed <- depression %>% group_by(Gender, Depression) %>% summarise(count = n())
 depression_is_depressed
 
 ggplot(depression_is_depressed, aes(x = Depression, y = count, fill = Gender)) + 
-  geom_bar(stat = "Identity", position = "dodge") + labs(title = "Bar Graph by Gender and Depression",
+  geom_bar(stat = "Identity", position = "dodge") + labs(title = "Student Gender by Whether or not they are Depressed",
        x = "Are you Depressed?",
        y = "Count") +
   theme_minimal()
