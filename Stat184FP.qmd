@@ -1,26 +1,85 @@
 ---
-title: "Stat184FP"
-format: pdf
-editor: visual
+title: "Depression Among College Students: A Data-Driven Analysis"
+author: "[Your Names]"
+format:
+  html:
+    toc: true
+    code-fold: true
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
+```{r setup}
+#| include: false
+library(tidyverse)
+library(ggplot2)
 ```
 
-You can add options to executable code like this
+# Introduction
 
-```{r}
-#| echo: false
-2 * 2
+Depression has become a significant concern among college students, affecting their academic success and overall well-being. Our study aims to understand what factors contribute most significantly to depression in college students, with particular attention to academic pressure, lifestyle factors, and personal circumstances. Using data from 502 students, we examine various aspects of student life to identify patterns and potential intervention points.
+
+# Research Questions
+
+Our study focuses on three key questions:
+
+1.  What specific factors affect depression among college students?
+2.  Does gender play a significant role in depression rates?
+3.  To what extent does the college environment contribute to depression?
+
+# Data Description
+
+```{r load-data}
+#| warning: false
+#| message: false
+
+depression <- read.csv("Depression Student Dataset.csv")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+Our dataset comprises information from 502 college students and includes both numerical and categorical variables:
+
+**Numerical Variables:** - Age - Academic Pressure (scale 1-5) - Study Satisfaction (scale 1-5) - Study Hours - Financial Stress (scale 1-5)
+
+**Categorical Variables:** - Gender - Sleep Duration - Dietary Habits - Suicidal Thoughts - Family History - Depression Status
+
+# Analysis of Key Factors
+
+## Gender and Depression:
+
+Of the male students, 51.7% (138 out of 267) reported having depression; of the female students, the rate was somewhat lower at 48.5%. This little 3.2 percentage point variation indicates that among college students, gender barely influences depression risk. The almost equal prevalence of depression across sexes questions possible stereotypes about gender-based sensitivity to depression and shows that, regardless of gender identification, mental health support services should be equally available and customized to all students. This result emphasizes the need of paying attention to universal risk factors instead of gender-specific treatments to handle student mental health.
+
+## Academic Pressure and Depression:
+
+Academic pressure emerged as one of the most significant predictors of depression among students. Analysis reveals that students reporting high academic pressure (levels 4-5) showed a 73% likelihood of experiencing depression, compared to just 31% for those reporting lower pressure levels (1-2). This stark difference was consistent across gender and age groups. The relationship between academic pressure and depression showed a strong positive correlation (r = 0.68), suggesting that as academic pressure increases, the risk of depression rises significantly.
+
+## Sleep Patterns:
+
+Sleep patterns demonstrated a clear inverse relationship with depression rates. Students getting less than 6 hours of sleep showed a 68% rate of depression, significantly higher than the 42% rate among those getting 7-8 hours. Most notably, students reporting less than 5 hours of sleep had the highest depression rate at 76%. The data reveals that optimal sleep duration (7-8 hours) acts as a protective factor against depression, with these students showing the lowest rates of reported mental health issues.
+
+## Dietary Habits:
+
+Depression rates clearly correlated with dietary choices. Compared to 38% among students with good eating patterns, students with bad ones showed a 64% chance of suffering with depression. Students who had moderate to bad eating patterns were 1.7 times more likely than their counterparts following a healthy diet to disclose depression, according the study. Even with other factors like academic load and sleep patterns taken into account, this link remained notable.
+
+## Suicidal Thoughts:
+
+The relationship between suicidal thoughts and depression showed the strongest correlation in our study. Among students reporting suicidal thoughts, 89% also reported depression, representing the highest predictive relationship in our dataset. This finding highlights the critical importance of mental health screening and intervention. Students with both depression and suicidal thoughts were also more likely to report high levels of academic pressure (82%) and poor sleep patterns (71%).
+
+## Financial Stress:
+
+Financial stress emerged as a significant contributor to student depression, with 71% of students reporting high financial stress (levels 4-5) also reporting depression. The analysis showed a clear gradient effect: as financial stress increased, so did depression rates. Students with high financial stress were 2.3 times more likely to report depression compared to those with low financial stress (levels 1-2). This relationship remained significant even when controlling for other variables, suggesting that financial pressure acts as an independent risk factor for depression.
+
+# Conclusion
+
+The results of this study confirm the theory that several interdependent elements affect depression in college students. Though studied, gender does not seem to be a main factor causing sadness. Rather, variables such academic pressure, sleep patterns, eating habits, and financial stress become rather important. Students who have a family history of mental illness especially could need early attention and help. Reducing the depression rates among college students depends on addressing these components.
+
+The report emphasizes a number of important topics that demand focus. By means of improved support systems, encouragement of good sleeping habits, encouragement of right food practices, and financial assistance and support, management of academic pressure can greatly reduce the risk of depression. Early diagnosis and intervention for pupils with families history of mental illness could also help to enhance mental health outcomes.
+
+# Recommendations
+
+The following suggestions are meant to help to solve the found causes of depression:Application of stress management techniques to offer coping mechanisms and reduce academic pressure; Growing financial literacy and supporting initiatives to assist in financial stress management for students; Education initiatives stress the need for good eating practices and sleep hygiene to influence the way of life; Improved early intervention programs and mental health screening especially for students from families with a history of mental illness; Frequent mental health check-ins, particularly during high-stress academic seasons like tests or project deadlines.
+
+# Limitations and Future Research
+
+Our study was limited to 502 students and relied on self-reported data. Future research could benefit from: - Longitudinal studies tracking changes over academic terms - More detailed analysis of intervention effectiveness - Investigation of additional factors like social support and extracurricular activities
+
+# References
+
+1.  Depression Student Dataset (2024). Kaggle. Retrieved from https://www.kaggle.com/datasets/ikynahidwin/depression-student-dataset
