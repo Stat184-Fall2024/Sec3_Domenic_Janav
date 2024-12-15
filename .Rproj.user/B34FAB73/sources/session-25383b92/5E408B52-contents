@@ -188,3 +188,44 @@ ggplot(depression_is_depressed, aes(x = Depression, y = count, fill = Gender)) +
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+result <- depression %>% group_by(Gender, Depression) %>% summarise(Count = n()) %>% mutate(Percentage = round((Count / sum(Count)) * 100, 2))
+
+ggplot(result, aes(x = "", y = Count, fill = interaction(Gender, Depression))) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Pie Chart of Count by Gender and Depression",
+    fill = "Gender-Depression"
+  ) +
+  theme_void()
+
+result %>% select(-Count)
+```
+
+
+```{r}
+data <- read.csv("Depression Student Dataset.csv")
+
+data$Depression <- ifelse(data$Depression == "Yes", 1, 0)
+data$Have.you.ever.had.suicidal.thoughts.. <- ifelse(data$Have.you.ever.had.suicidal.thoughts.. == "Yes", 1, 0)
+data$Family.History.of.Mental.Illness <- ifelse(data$Family.History.of.Mental.Illness == "Yes", 1, 0)
+data$Gender <- ifelse(data$Gender == "Male", 1, 0)
+
+data <- data %>%
+  mutate(Sleep.Duration = recode(Sleep.Duration, "5-6 hours" = 1, "7-8 hours" = 2, "More than 8 hours" = 3, "Less than 5 hours" = 0)) %>% mutate(Dietary.Habits = recode(Dietary.Habits, "Healthy" = 2 , "Unhealthy" = 0, "Moderate" = 1))
+
+
+numeric_data <- data[sapply(data, is.numeric)]
+
+correlation_matrix <- cor(numeric_data)
+
+correlation_with_depression <- data.frame(
+  Correlation.to.Depression = correlation_matrix[,"Depression"]
+)
+
+head(correlation_with_depression, 10)
+
+
+```
