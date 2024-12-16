@@ -1,7 +1,0 @@
-"0",""
-"0","ggplot(depression_is_depressed, aes(x = Depression, y = count, fill = Gender)) + "
-"0","  geom_bar(stat = ""Identity"", position = ""dodge"") + labs(title = ""Student Gender by Whether or not they are Depressed"","
-"0","       x = ""Are you Depressed?"","
-"0","       y = ""Count"") +"
-"0","  theme_minimal()"
-"0",""

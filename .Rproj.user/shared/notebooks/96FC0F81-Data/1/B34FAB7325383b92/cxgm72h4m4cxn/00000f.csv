@@ -1,3 +1,0 @@
-"0","depression_is_depressed <- depression %>% group_by(Gender, Depression) %>% summarise(count = n())"
-"2","`summarise()` has grouped output by 'Gender'. You can override using the `.groups` argument."
-"0","depression_is_depressed"
